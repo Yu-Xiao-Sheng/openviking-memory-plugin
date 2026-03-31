@@ -1,0 +1,19 @@
+{
+  "storage": {
+    "workspace": "~/.openviking-workspace"
+  },
+  "log": {
+    "level": "INFO",
+    "output": "stdout"
+  },
+  "embedding": {
+    "dense": {
+      "provider": "openai",
+      "model": "BAAI/bge-large-zh-v1.5",
+      "api_base": "https://api.siliconflow.cn/v1",
+      "api_key": "YOUR_SILICONFLOW_API_KEY_HERE",
+      "dimension": 1024
+    },
+    "max_concurrent": 10
+  }
+}

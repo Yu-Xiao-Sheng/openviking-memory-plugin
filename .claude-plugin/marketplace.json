@@ -1,0 +1,21 @@
+{
+  "name": "openviking-memory-marketplace",
+  "owner": {
+    "name": "Yu-Xiao-Sheng"
+  },
+  "metadata": {
+    "description": "OpenViking memory plugin for Claude Code",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "openviking-memory",
+      "description": "OpenViking memory plugin for Claude Code - provides automatic session memory extraction and semantic recall",
+      "author": {
+        "name": "Yu-Xiao-Sheng"
+      },
+      "homepage": "https://github.com/Yu-Xiao-Sheng/openviking-memory-plugin",
+      "source": "."
+    }
+  ]
+}
