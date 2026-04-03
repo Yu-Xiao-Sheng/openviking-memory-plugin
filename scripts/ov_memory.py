@@ -18,6 +18,17 @@ import subprocess
 import time
 from dataclasses import dataclass
 from pathlib import Path
+
+
+def _resolve_ov_conf(project_dir: Path) -> Path:
+    """Resolve ov.conf: project-level first, then global fallback."""
+    project_conf = project_dir / "ov.conf"
+    if project_conf.exists():
+        return project_conf
+    global_conf = Path.home() / ".openviking" / "ov.conf"
+    if global_conf.exists():
+        return global_conf
+    return project_conf  # return project path for error reporting
 from typing import Any, Dict, List, Optional
 from urllib import error, request
 
@@ -431,7 +442,7 @@ def _build_backend_from_state_or_detect(
 
 def cmd_session_start(args: argparse.Namespace) -> Dict[str, Any]:
     project_dir = Path(args.project_dir).resolve()
-    ov_conf_path = project_dir / "ov.conf"
+    ov_conf_path = _resolve_ov_conf(project_dir)
     state_file = Path(args.state_file)
 
     if not ov_conf_path.exists():
@@ -485,7 +496,7 @@ def cmd_session_start(args: argparse.Namespace) -> Dict[str, Any]:
 
 def cmd_ingest_stop(args: argparse.Namespace) -> Dict[str, Any]:
     project_dir = Path(args.project_dir).resolve()
-    ov_conf_path = project_dir / "ov.conf"
+    ov_conf_path = _resolve_ov_conf(project_dir)
     state_file = Path(args.state_file)
     transcript = Path(args.transcript_path)
 
@@ -545,7 +556,7 @@ def cmd_ingest_stop(args: argparse.Namespace) -> Dict[str, Any]:
 
 def cmd_session_end(args: argparse.Namespace) -> Dict[str, Any]:
     project_dir = Path(args.project_dir).resolve()
-    ov_conf_path = project_dir / "ov.conf"
+    ov_conf_path = _resolve_ov_conf(project_dir)
     state_file = Path(args.state_file)
 
     state = _load_state(state_file)
@@ -592,7 +603,7 @@ def cmd_session_end(args: argparse.Namespace) -> Dict[str, Any]:
 
 def cmd_recall(args: argparse.Namespace) -> int:
     project_dir = Path(args.project_dir).resolve()
-    ov_conf_path = project_dir / "ov.conf"
+    ov_conf_path = _resolve_ov_conf(project_dir)
     state_file = Path(args.state_file)
     query = _as_text(args.query)
 

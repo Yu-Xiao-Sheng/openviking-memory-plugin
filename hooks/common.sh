@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Shared helpers for OpenViking Claude Code hooks.
 
-set -euo pipefail
+set -uo pipefail
 
 INPUT="$(cat || true)"
 
@@ -9,13 +9,20 @@ for p in "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/bin" "/usr/local/bin"; do
   [[ -d "$p" ]] && [[ ":$PATH:" != *":$p:"* ]] && export PATH="$p:$PATH"
 done
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Resolve script directory - compatible with bash and sh
+_HOOK_FILE="${BASH_SOURCE[0]:-${0}}"
+SCRIPT_DIR="$(cd "$(dirname "$_HOOK_FILE")" && pwd)"
+
+# Resolve plugin root
 PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 
 STATE_DIR="$PROJECT_DIR/.openviking/memory"
 STATE_FILE="$STATE_DIR/session_state.json"
 OV_CONF="$PROJECT_DIR/ov.conf"
+if [[ ! -f "$OV_CONF" ]]; then
+  OV_CONF="$HOME/.openviking/ov.conf"
+fi
 BRIDGE="$PLUGIN_ROOT/scripts/ov_memory.py"
 
 # Use the openviking venv Python if available
@@ -103,5 +110,5 @@ run_bridge() {
   "$PYTHON_BIN" "$BRIDGE" \
     --project-dir "$PROJECT_DIR" \
     --state-file "$STATE_FILE" \
-    "$@"
+    "$@" 2>&1 | grep -E '^\{.*\}$' | tail -1
 }
