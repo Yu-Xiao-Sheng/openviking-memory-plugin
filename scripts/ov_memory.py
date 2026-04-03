@@ -448,7 +448,7 @@ def cmd_session_start(args: argparse.Namespace) -> Dict[str, Any]:
     if not ov_conf_path.exists():
         return {
             "ok": False,
-            "status_line": "[openviking-memory] ERROR: ./ov.conf not found",
+            "status_line": "[openviking-memory] ERROR: ov.conf not found (tried project dir and ~/.openviking/)",
             "error": "ov.conf not found",
         }
 
@@ -571,7 +571,7 @@ def cmd_session_end(args: argparse.Namespace) -> Dict[str, Any]:
         return {
             "ok": False,
             "committed": False,
-            "status_line": "[openviking-memory] ERROR: ./ov.conf not found",
+            "status_line": "[openviking-memory] ERROR: ov.conf not found (tried project dir and ~/.openviking/)",
             "error": "ov.conf not found",
         }
 
