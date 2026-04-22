@@ -61,6 +61,7 @@ cp ov.conf.example ./ov.conf
 | Option | Description | Default |
 |--------|-------------|---------|
 | `storage.workspace` | OpenViking workspace directory | `~/.openviking-workspace` |
+| `storage.vectordb.path` | Vector database storage path | `~/.openviking/vectordb` |
 | `embedding.dense.provider` | Embedding API provider | `openai` |
 | `embedding.dense.model` | Embedding model name | `BAAI/bge-large-zh-v1.5` |
 | `embedding.dense.api_base` | Embedding API base URL | `https://api.siliconflow.cn/v1` |

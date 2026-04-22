@@ -1,6 +1,9 @@
 {
   "storage": {
-    "workspace": "~/.openviking-workspace"
+    "workspace": "~/.openviking-workspace",
+    "vectordb": {
+      "path": "~/.openviking/vectordb"
+    }
   },
   "log": {
     "level": "INFO",
